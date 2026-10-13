@@ -1,0 +1,612 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Jean Biscazzi CRM Portfolio</title>
+<meta name="description" content="Jean Biscazzi, CRM and Lifecycle Marketing Specialist. Case studies in lifecycle journeys, automation, analytics, data governance and applied AI.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: a journey spec sheet. Ledger of before/after numbers, then case cards read like CRM journey specs (mono header, Problem / Built / Result, stack chips). */
+:root{
+  --bg:#F5F7F7;
+  --surface:#FFFFFF;
+  --fg:#13201F;
+  --muted:#52615F;
+  --line:#D6DEDD;
+  --accent:#0B6B6B;
+  --accent-soft:#E2F0EF;
+  --on-accent:#FFFFFF;
+  --font-display:"Bricolage Grotesque","Segoe UI",system-ui,sans-serif;
+  --font-body:"IBM Plex Sans","Segoe UI",system-ui,-apple-system,sans-serif;
+  --font-mono:"IBM Plex Mono",ui-monospace,"Cascadia Mono",Consolas,monospace;
+  --radius:6px;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#0F1716;--surface:#16211F;--fg:#E4ECEA;--muted:#9DAEAB;--line:#2A3936;
+    --accent:#5CC4BC;--accent-soft:#163331;--on-accent:#0F1716;color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#0F1716;--surface:#16211F;--fg:#E4ECEA;--muted:#9DAEAB;--line:#2A3936;
+  --accent:#5CC4BC;--accent-soft:#163331;--on-accent:#0F1716;color-scheme:dark;
+}
+
+/* language switching: English visible by default even before script runs */
+html:not([data-lang]) [data-l]:not([data-l="en"]),
+html[data-lang="en"] [data-l]:not([data-l="en"]),
+html[data-lang="pt"] [data-l]:not([data-l="pt"]),
+html[data-lang="it"] [data-l]:not([data-l="it"]){display:none!important}
+
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--fg);font-family:var(--font-body);font-size:16px;line-height:1.55;margin:0}
+.wrap{max-width:1080px;margin:0 auto;padding-inline:20px}
+a{color:var(--accent);text-underline-offset:3px}
+a:focus-visible,button:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+h1,h2,h3{font-family:var(--font-display);text-wrap:balance;margin:0;line-height:1.15}
+.eyebrow{font-family:var(--font-mono);font-size:.75rem;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+
+/* top bar */
+.top{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--bg);border-bottom:1px solid var(--line)}
+.top .wrap{display:flex;align-items:center;justify-content:space-between;gap:12px;padding-block:10px;flex-wrap:wrap}
+.mark{font-family:var(--font-mono);font-size:.82rem;color:var(--muted)}
+.mark b{color:var(--fg);font-weight:500}
+.langs{display:flex;border:1px solid var(--line);border-radius:999px;padding:2px;background:var(--surface)}
+.langs button{font:500 .8rem var(--font-mono);color:var(--muted);background:transparent;border:0;border-radius:999px;padding:6px 12px;cursor:pointer}
+.langs button[aria-pressed="true"]{background:var(--accent);color:var(--on-accent)}
+
+/* hero */
+.hero{padding-block:56px 40px;display:grid;gap:22px}
+.hero h1{font-size:clamp(2.6rem,7vw,4.6rem);font-weight:700;letter-spacing:-.02em}
+.role{font-family:var(--font-display);font-weight:500;font-size:clamp(1.15rem,2.6vw,1.5rem);color:var(--accent)}
+.pitch{max-width:62ch;font-size:1.08rem;margin:0}
+.facts{display:flex;flex-wrap:wrap;gap:8px;margin:0;padding:0;list-style:none}
+.facts li{font-size:.85rem;border:1px solid var(--line);border-radius:999px;padding:4px 12px;color:var(--muted);background:var(--surface)}
+.contact{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+.contact .addr{font-family:var(--font-mono);font-size:.92rem;user-select:all;background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:8px 12px}
+.btn{font:500 .88rem var(--font-body);border-radius:var(--radius);padding:8px 14px;cursor:pointer;text-decoration:none;display:inline-flex;align-items:center;gap:6px}
+.btn-solid{background:var(--accent);color:var(--on-accent);border:1px solid var(--accent)}
+.btn-line{background:transparent;color:var(--accent);border:1px solid var(--accent)}
+
+/* ledger */
+.ledger{border-block:1px solid var(--line);display:grid;grid-template-columns:repeat(3,minmax(0,1fr))}
+.stat{padding:20px 18px;border-right:1px solid var(--line);border-bottom:1px solid var(--line);display:grid;gap:6px;align-content:start}
+.stat:nth-child(3n){border-right:0}
+.stat:nth-last-child(-n+3){border-bottom:0}
+.num{font-family:var(--font-display);font-weight:700;font-size:clamp(1.7rem,3.6vw,2.3rem);font-variant-numeric:tabular-nums;letter-spacing:-.01em;line-height:1.1}
+.num .from{color:var(--muted);font-weight:500}
+.num .arrow{color:var(--accent);padding-inline:4px}
+.stat p{margin:0;font-size:.9rem;color:var(--muted);max-width:32ch}
+
+/* sections */
+section{padding-block:56px 8px}
+.sec-head{display:grid;gap:8px;margin-bottom:24px;max-width:68ch}
+.sec-head h2{font-size:clamp(1.6rem,3.4vw,2.2rem);font-weight:700}
+.sec-head p{margin:0;color:var(--muted)}
+
+/* cases */
+.cases{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}
+.case{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);display:flex;flex-direction:column;min-width:0}
+.case-top{display:flex;justify-content:space-between;gap:10px;padding:12px 18px;border-bottom:1px solid var(--line);font-family:var(--font-mono);font-size:.74rem;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+.case-top .theme{color:var(--accent);font-weight:500}
+.case-body{padding:18px;display:grid;gap:14px;flex:1;align-content:start}
+.case h3{font-size:1.32rem;font-weight:700}
+.case dl{margin:0;display:grid;gap:12px}
+.case dt{font-family:var(--font-mono);font-size:.72rem;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin-bottom:2px}
+.case dd{margin:0;font-size:.95rem}
+.case .result{background:var(--accent-soft);border-radius:var(--radius);padding:12px 14px}
+.case .result dt{color:var(--accent)}
+.chips{display:flex;flex-wrap:wrap;gap:6px;padding:0 18px 18px;margin:0;list-style:none}
+.chips li{font-family:var(--font-mono);font-size:.74rem;border:1px solid var(--line);border-radius:4px;padding:2px 8px;color:var(--muted)}
+
+/* diagram */
+.diagram{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:18px;overflow-x:auto}
+.diagram svg{display:block;min-width:720px;width:100%;height:auto}
+.d-box{fill:var(--bg);stroke:var(--line)}
+.d-key{fill:var(--accent-soft);stroke:var(--accent)}
+.d-head{font:500 12px var(--font-mono);letter-spacing:.08em;fill:var(--muted);text-transform:uppercase}
+.d-txt{font:500 13.5px var(--font-body);fill:var(--fg)}
+.d-key-txt{font:600 13.5px var(--font-body);fill:var(--accent)}
+.d-line{stroke:var(--muted);stroke-width:1.4;fill:none}
+.d-arrow{fill:var(--muted)}
+.d-cap{font:400 12px var(--font-body);fill:var(--muted)}
+.cap{font-size:.88rem;color:var(--muted);margin:10px 0 0}
+
+/* stack */
+.stack{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,230px),1fr));gap:0;border-top:1px solid var(--line)}
+.stack div{padding:16px 16px 16px 0;border-bottom:1px solid var(--line);min-width:0}
+.stack h3{font-family:var(--font-mono);font-size:.76rem;font-weight:500;letter-spacing:.08em;text-transform:uppercase;color:var(--accent);margin-bottom:6px}
+.stack p{margin:0;font-size:.94rem}
+
+/* how I work */
+.how{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}
+.how article{border-top:2px solid var(--accent);padding-top:14px;min-width:0}
+.how h3{font-size:1.15rem;margin-bottom:6px}
+.how p{margin:0;color:var(--fg);font-size:.95rem;max-width:58ch}
+
+/* footer */
+footer{margin-top:64px;border-top:1px solid var(--line);padding-block:40px 48px}
+footer .wrap{display:grid;gap:18px}
+footer h2{font-size:clamp(1.5rem,3vw,2rem)}
+.fine{font-size:.82rem;color:var(--muted);margin:0;max-width:72ch}
+
+@media (max-width:760px){
+  .ledger{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .stat:nth-child(3n){border-right:1px solid var(--line)}
+  .stat:nth-child(2n){border-right:0}
+  .stat:nth-last-child(-n+3){border-bottom:1px solid var(--line)}
+  .stat:nth-last-child(-n+2){border-bottom:0}
+  .cases,.how{grid-template-columns:1fr}
+  .hero{padding-block:36px 28px}
+}
+@media (max-width:420px){
+  .wrap{padding-inline:16px}
+  .stat{padding:16px 12px}
+}
+@media (prefers-reduced-motion:no-preference){
+  .langs button{transition:background .15s,color .15s}
+}
+</style>
+<script>
+(function(){
+  var l='en';
+  try{var s=localStorage.getItem('jb-lang');if(s==='en'||s==='pt'||s==='it')l=s;}catch(e){}
+  document.documentElement.setAttribute('data-lang',l);
+  document.documentElement.lang=l==='pt'?'pt-BR':l;
+})();
+</script>
+</head>
+<body>
+
+<header class="top">
+  <div class="wrap">
+    <span class="mark"><b>Jean Biscazzi</b> / CRM + AI</span>
+    <div class="langs" role="group" aria-label="Language">
+      <button type="button" id="lang-pt" data-set="pt" aria-pressed="false" lang="pt-BR">PT</button>
+      <button type="button" id="lang-en" data-set="en" aria-pressed="true" lang="en">EN</button>
+      <button type="button" id="lang-it" data-set="it" aria-pressed="false" lang="it">IT</button>
+    </div>
+  </div>
+</header>
+
+<main>
+  <div class="wrap">
+    <div class="hero">
+      <span class="eyebrow">
+        <span data-l="en">Portfolio · 2026</span><span data-l="pt">Portfólio · 2026</span><span data-l="it">Portfolio · 2026</span>
+      </span>
+      <h1>Jean Biscazzi</h1>
+      <div class="role">CRM &amp; Lifecycle Marketing Specialist · CRM + AI</div>
+      <p class="pitch" data-l="en">I run CRM end to end: I design the journey, automate it, measure it and make sure the data can be trusted. 9+ years in CRM and marketing automation, the last 3 in healthtech. I also build AI agents that operate the CRM, with a human approval step before anything changes.</p>
+      <p class="pitch" data-l="pt">Faço CRM de ponta a ponta: desenho a jornada, automatizo, meço o resultado e garanto que o dado seja confiável. São mais de 9 anos em CRM e automação de marketing, os últimos 3 em healthtech. Também construo agentes de IA que operam o CRM, com aprovação humana antes de qualquer alteração.</p>
+      <p class="pitch" data-l="it">Gestisco il CRM end to end: progetto il customer journey, lo automatizzo, ne misuro i risultati e mi assicuro che i dati siano affidabili. Ho oltre 9 anni di esperienza in CRM e marketing automation, gli ultimi 3 nel settore healthtech. Sviluppo anche agenti AI che operano sul CRM, con un'approvazione umana prima di ogni modifica.</p>
+      <p class="pitch" data-l="en">Based in Brazil, I focus on international CRM and Marketing Ops roles, particularly remote opportunities. Italian citizenship and Italian fluency support opportunities in Italy and the EU. Relocation can be discussed; no move date is set. I use AI to accelerate analysis and automation while retaining ownership of decisions and validation.</p>
+<p class="pitch" data-l="pt">Atualmente no Brasil, meu foco são oportunidades internacionais em CRM e Marketing Ops, especialmente remotas. Cidadania italiana e domínio do italiano facilitam oportunidades na Itália e na União Europeia. Uma mudança pode ser discutida, sem data definida. Uso IA para acelerar análise e automação, mantendo a responsabilidade pelas decisões e pela validação.</p>
+<p class="pitch" data-l="it">Attualmente in Brasile, mi concentro su opportunità internazionali in CRM e Marketing Ops, soprattutto da remoto. La cittadinanza italiana e la conoscenza dell'italiano facilitano opportunità in Italia e nell'UE. Un trasferimento è valutabile, senza una data definita. Uso l'AI per accelerare analisi e automazione, mantenendo la responsabilità delle decisioni e della validazione.</p>
+<ul class="facts">
+        <li><span data-l="en">Italian citizen (EU)</span><span data-l="pt">Cidadão italiano (UE)</span><span data-l="it">Cittadino italiano (UE)</span></li>
+        <li><span data-l="en">Based in Brazil · Open to international remote roles · Italian citizenship (EU)</span><span data-l="pt">Base no Brasil · Foco em vagas internacionais remotas · Cidadania italiana (UE)</span><span data-l="it">Residente in Brasile · Disponibile per ruoli internazionali da remoto · Cittadinanza italiana (UE)</span></li>
+        <li><span data-l="en">Portuguese · Italian · English</span><span data-l="pt">Português · Italiano · Inglês</span><span data-l="it">Portoghese · Italiano · Inglese</span></li>
+      </ul>
+      <div class="contact">
+        <span class="addr" id="email">jean.biscazzi@gmail.com</span>
+        <button type="button" class="btn btn-solid" id="copy-email"><span data-l="en">Copy email</span><span data-l="pt">Copiar e-mail</span><span data-l="it">Copia e-mail</span></button>
+        <a class="btn btn-line" href="https://www.linkedin.com/in/jean-biscazzi" target="_blank" rel="noopener">linkedin.com/in/jean-biscazzi</a>
+      </div>
+    </div>
+
+    <div class="ledger" aria-label="Key numbers">
+      <div class="stat">
+        <div class="num"><span class="from">5.3%</span><span class="arrow">→</span>16.4%</div>
+        <p data-l="en">Onboarding journey click rate, about 3x</p>
+        <p data-l="pt">Taxa de clique da régua de onboarding, cerca de 3x</p>
+        <p data-l="it">Click rate del journey di onboarding, circa 3 volte</p>
+      </div>
+      <div class="stat">
+        <div class="num">~16.6k</div>
+        <p data-l="en">Users in a WhatsApp app-acquisition journey</p>
+        <p data-l="pt">Usuários numa régua de WhatsApp para aquisição de app</p>
+        <p data-l="it">Utenti in un journey WhatsApp di acquisizione app</p>
+      </div>
+      <div class="stat">
+        <div class="num"><span class="from">30+ min</span><span class="arrow">→</span>107 s</div>
+        <p data-l="en">Benefit sync for 60+ B2B companies</p>
+        <p data-l="pt">Sincronização de benefícios de 60+ empresas B2B</p>
+        <p data-l="it">Sincronizzazione dei benefit di oltre 60 aziende B2B</p>
+      </div>
+      <div class="stat">
+        <div class="num">~100</div>
+        <p data-l="en">Automations standardized to one naming taxonomy via API</p>
+        <p data-l="pt">Automações padronizadas numa única taxonomia via API</p>
+        <p data-l="it">Automazioni uniformate a un'unica tassonomia via API</p>
+      </div>
+      <div class="stat">
+        <div class="num">22</div>
+        <p data-l="en">Production emails rewritten via API, with backup and mapping</p>
+        <p data-l="pt">E-mails em produção reescritos via API, com backup e de-para</p>
+        <p data-l="it">E-mail in produzione riscritte via API, con backup e mappatura</p>
+      </div>
+      <div class="stat">
+        <div class="num">22</div>
+        <p data-l="en">Tools in a custom MCP server that lets AI agents operate the CRM</p>
+        <p data-l="pt">Ferramentas num servidor MCP próprio para agentes de IA operarem o CRM</p>
+        <p data-l="it">Strumenti in un server MCP proprietario che permette agli agenti AI di operare sul CRM</p>
+      </div>
+    </div>
+
+    <section id="cases" aria-labelledby="cases-h">
+      <div class="sec-head">
+        <span class="eyebrow">Sami · healthtech, Brazil · 2025-2026</span>
+        <h2 id="cases-h"><span data-l="en">Selected work</span><span data-l="pt">Trabalhos selecionados</span><span data-l="it">Progetti selezionati</span></h2>
+        <p data-l="en">What I built as Senior CRM Analyst at a Brazilian health insurance healthtech, where I own multichannel CRM: email, SMS, WhatsApp, push and in-app. Figures are aggregated.</p>
+        <p data-l="pt">O que construí como Analista de CRM Sênior numa healthtech brasileira de plano de saúde, onde sou responsável pelo CRM multicanal: e-mail, SMS, WhatsApp, push e in-app. Os números são agregados.</p>
+        <p data-l="it">Cosa ho realizzato come Senior CRM Analyst in una healthtech brasiliana di assicurazione sanitaria, dove gestisco il CRM multicanale: e-mail, SMS, WhatsApp, push e in-app. I dati sono aggregati.</p>
+      </div>
+
+      <div class="cases">
+
+        <!-- 1 -->
+        <article class="case">
+          <div class="case-top"><span class="theme"><span data-l="en">Lifecycle journeys</span><span data-l="pt">Jornadas de ciclo de vida</span><span data-l="it">Lifecycle journey</span></span><span>01</span></div>
+          <div class="case-body">
+            <h3><span data-l="en">Onboarding journey that tripled clicks</span><span data-l="pt">Régua de onboarding que triplicou o clique</span><span data-l="it">Onboarding journey con click triplicati</span></h3>
+            <dl>
+              <div><dt><span data-l="en">Opportunity</span><span data-l="pt">Oportunidade</span><span data-l="it">Opportunità</span></dt>
+                <dd data-l="en">New members needed a welcome journey that led them to a first action, and the team needed a clean way to know whether it worked.</dd>
+                <dd data-l="pt">Novos membros precisavam de uma jornada de boas-vindas que os levasse a uma primeira ação, e o time precisava de uma forma limpa de saber se funcionava.</dd>
+                <dd data-l="it">I nuovi iscritti avevano bisogno di un journey di benvenuto che li portasse a una prima azione, e il team voleva un modo chiaro per misurarne l'efficacia.</dd></div>
+              <div><dt><span data-l="en">What I built</span><span data-l="pt">O que construí</span><span data-l="it">Cosa ho realizzato</span></dt>
+                <dd data-l="en">I contributed to the evolution of the multichannel onboarding journey, including channel-order A/B tests and entry-criteria improvements. I automated weekly coverage monitoring to turn analysis into a repeatable operational process.</dd>
+                <dd data-l="pt">Atuei na evolução da jornada multicanal de onboarding, com testes A/B de ordem de canal e melhorias nos critérios de entrada. Automatizei o monitoramento semanal de cobertura, transformando a análise em um processo operacional recorrente.</dd>
+                <dd data-l="it">Ho contribuito all'evoluzione del journey di onboarding multicanale, con A/B test sull'ordine dei canali e miglioramenti dei criteri di ingresso. Ho automatizzato il monitoraggio settimanale della copertura, trasformando l'analisi in un processo operativo ricorrente.</dd></div>
+              <div class="result"><dt><span data-l="en">Result</span><span data-l="pt">Resultado</span><span data-l="it">Risultato</span></dt>
+                <dd data-l="en">Journey click rate went from 5.3% to 16.4%. A weekly report flags any new member who did not enter the journey.</dd>
+                <dd data-l="pt">A taxa de clique da jornada foi de 5,3% para 16,4%. Um relatório semanal aponta qualquer novo membro que não entrou na jornada.</dd>
+                <dd data-l="it">Il click rate del journey è passato dal 5,3% al 16,4%. Un report settimanale segnala ogni nuovo iscritto che non è entrato nel journey.</dd></div>
+            </dl>
+          </div>
+          <ul class="chips"><li>ActiveCampaign</li><li>A/B testing</li><li>Python</li><li>Looker</li><li>Apps Script</li></ul>
+        </article>
+
+        <!-- 2 -->
+        <article class="case">
+          <div class="case-top"><span class="theme"><span data-l="en">Lifecycle journeys</span><span data-l="pt">Jornadas de ciclo de vida</span><span data-l="it">Lifecycle journey</span></span><span>02</span></div>
+          <div class="case-body">
+            <h3><span data-l="en">Payment reminder journey with daily reconciliation</span><span data-l="pt">Régua de cobrança com reconciliação diária</span><span data-l="it">Journey di promemoria pagamento con riconciliazione giornaliera</span></h3>
+            <dl>
+              <div><dt><span data-l="en">Opportunity</span><span data-l="pt">Oportunidade</span><span data-l="it">Opportunità</span></dt>
+                <dd data-l="en">Payment reminders run across email, SMS and push. They have to reach only people with a real pending payment, at the right moment, with evidence ready for audits.</dd>
+                <dd data-l="pt">A comunicação de cobrança roda em e-mail, SMS e push. Ela precisa chegar só a quem tem pendência real, no momento certo, com evidência pronta para auditoria.</dd>
+                <dd data-l="it">I promemoria di pagamento passano da e-mail, SMS e push. Devono raggiungere solo chi ha davvero un pagamento in sospeso, al momento giusto, con evidenze pronte per gli audit.</dd></div>
+              <div><dt><span data-l="en">What I built</span><span data-l="pt">O que construí</span><span data-l="it">Cosa ho realizzato</span></dt>
+                <dd data-l="en">Designed and implemented the complete D-10 to D+60 journey with a status gate at entry and per-contact evidence tags. Rewrote all 22 production emails via API, with backup and a reviewed mapping. Built a daily reconciliation between payments and CRM that removes paid contracts from the journey, with dry-run mode, volume safeguards and an audit note on every contact.</dd>
+                <dd data-l="pt">Desenhei e implementei a jornada completa de D-10 a D+60, com trava de status na entrada e tags de evidência por contato. Reescrevi via API os 22 e-mails em produção, com backup e de-para revisado. Construí a reconciliação diária entre pagamentos e CRM, que tira da régua quem já pagou, com modo simulação, travas de volume e nota de auditoria em cada contato.</dd>
+                <dd data-l="it">Ho progettato e implementato il journey completo da D-10 a D+60, con un controllo di stato in ingresso e tag di evidenza per contatto. Ho riscritto via API tutte le 22 e-mail in produzione, con backup e mappatura revisionata. Ho sviluppato una riconciliazione giornaliera tra pagamenti e CRM che esclude dal journey chi ha già pagato, con modalità dry-run, soglie di sicurezza sui volumi e una nota di audit su ogni contatto.</dd></div>
+              <div class="result"><dt><span data-l="en">Result</span><span data-l="pt">Resultado</span><span data-l="it">Risultato</span></dt>
+                <dd data-l="en">Reminders go only to contacts with a pending payment, and every automated action leaves a trail on the contact and a summary for the team.</dd>
+                <dd data-l="pt">Só recebe cobrança quem tem pendência, e cada ação automática deixa trilha no contato e um resumo para o time.</dd>
+                <dd data-l="it">I promemoria arrivano solo a chi ha un pagamento in sospeso, e ogni azione automatica lascia una traccia sul contatto e un riepilogo per il team.</dd></div>
+            </dl>
+          </div>
+          <ul class="chips"><li>ActiveCampaign API</li><li>Python</li><li>Apps Script</li><li>SQL</li><li>Slack</li></ul>
+        </article>
+
+        <!-- 3 -->
+        <article class="case">
+          <div class="case-top"><span class="theme"><span data-l="en">Automation without an engineering queue</span><span data-l="pt">Automação sem fila de engenharia</span><span data-l="it">Automazione senza coda di sviluppo</span></span><span>03</span></div>
+          <div class="case-body">
+            <h3><span data-l="en">B2B benefits and pricing operations</span><span data-l="pt">Operações de benefícios e preços B2B</span><span data-l="it">Operazioni su benefit e pricing B2B</span></h3>
+            <dl>
+              <div><dt><span data-l="en">Opportunity</span><span data-l="pt">Oportunidade</span><span data-l="it">Opportunità</span></dt>
+                <dd data-l="en">I identified an opportunity to replace weekly manual B2B benefit updates with scalable automation. With AI-assisted development, I redesigned the processing to handle company and contact data in bulk.</dd>
+                <dd data-l="pt">Identifiquei uma oportunidade de substituir a atualização manual semanal de benefícios B2B por uma automação em escala. Com apoio de IA no desenvolvimento, redesenhei o processamento para trabalhar com empresas e contatos em lote.</dd>
+                <dd data-l="it">Ho identificato un'opportunità per sostituire gli aggiornamenti manuali settimanali dei benefit B2B con un'automazione scalabile. Con il supporto dell'AI nello sviluppo, ho riprogettato il processo per gestire aziende e contatti in blocco.</dd></div>
+              <div><dt><span data-l="en">What I built</span><span data-l="pt">O que construí</span><span data-l="it">Cosa ho realizzato</span></dt>
+                <dd data-l="en">An Apps Script robot that reads the B2B control sheet and pushes each company's benefit to its contacts through the contract object, using bulk import and header-based column mapping so sheet edits do not break it. Same pattern for post-renewal discounts: dry-run, review, then execute.</dd>
+                <dd data-l="pt">Um robô em Apps Script que lê a planilha de controle B2B e propaga o benefício de cada empresa para os contatos via objeto de contrato, com importação em lote e leitura de colunas pelo cabeçalho, para não quebrar quando a planilha muda. O mesmo padrão vale para descontos pós-reajuste: simulação, revisão e execução.</dd>
+                <dd data-l="it">Un robot in Apps Script che legge il foglio di controllo B2B e propaga il benefit di ogni azienda ai relativi contatti tramite l'oggetto contratto, con importazione massiva e mappatura delle colonne per intestazione, così le modifiche al foglio non lo bloccano. Stesso schema per gli sconti post-adeguamento: dry-run, revisione, esecuzione.</dd></div>
+              <div class="result"><dt><span data-l="en">Result</span><span data-l="pt">Resultado</span><span data-l="it">Risultato</span></dt>
+                <dd data-l="en">62 companies and 2,180 contacts synced in 107 seconds, and the weekly manual update is gone. A discount cycle of 753 contracts ran with no manual follow-up. 7 Apps Script robots now run in the cloud with the same audit pattern.</dd>
+                <dd data-l="pt">62 empresas e 2.180 contatos sincronizados em 107 segundos, sem a atualização manual semanal. Um ciclo de desconto com 753 contratos rodou sem pendência manual. 7 robôs em Apps Script rodam na nuvem com o mesmo padrão de auditoria.</dd>
+                <dd data-l="it">62 aziende e 2.180 contatti sincronizzati in 107 secondi, senza più l'aggiornamento manuale settimanale. Un ciclo di sconti su 753 contratti si è chiuso senza interventi manuali. 7 robot in Apps Script girano in cloud con lo stesso schema di audit.</dd></div>
+            </dl>
+          </div>
+          <ul class="chips"><li>Google Apps Script</li><li>ActiveCampaign Custom Objects</li><li>Bulk import</li><li>Python</li></ul>
+        </article>
+
+        <!-- 4 -->
+        <article class="case">
+          <div class="case-top"><span class="theme"><span data-l="en">Analytics &amp; reporting</span><span data-l="pt">Analytics e relatórios</span><span data-l="it">Analytics e reporting</span></span><span>04</span></div>
+          <div class="case-body">
+            <h3><span data-l="en">Automated weekly and monthly CRM reporting</span><span data-l="pt">Relatórios de CRM semanais e mensais automatizados</span><span data-l="it">Reporting CRM settimanale e mensile automatizzato</span></h3>
+            <dl>
+              <div><dt><span data-l="en">Opportunity</span><span data-l="pt">Oportunidade</span><span data-l="it">Opportunità</span></dt>
+                <dd data-l="en">I identified an opportunity to accelerate the consolidation of multichannel and product data. AI-assisted development helped turn manual extraction and reconciliation into reusable reporting pipelines.</dd>
+                <dd data-l="pt">Identifiquei uma oportunidade de acelerar a consolidação de dados de canais e produto. Com apoio de IA no desenvolvimento, transformei extrações e conciliações manuais em pipelines reutilizáveis de reporting.</dd>
+                <dd data-l="it">Ho identificato un'opportunità per accelerare il consolidamento dei dati di canale e di prodotto. Con il supporto dell'AI nello sviluppo, ho trasformato estrazioni e riconciliazioni manuali in pipeline di reporting riutilizzabili.</dd></div>
+              <div><dt><span data-l="en">What I built</span><span data-l="pt">O que construí</span><span data-l="it">Cosa ho realizzato</span></dt>
+                <dd data-l="en">Python pipelines that combine email, SMS, push and WhatsApp with product data (active users, bookings, service usage) on a pseudonymous key, and output an HTML report, an editable deck and a validation workbook. A weekly generator covers 30 journeys with rule-based insights; the monthly leadership report is built from snapshots.</dd>
+                <dd data-l="pt">Pipelines em Python que juntam e-mail, SMS, push e WhatsApp com dados de produto (usuários ativos, agendamentos, uso de serviços) por uma chave pseudonimizada, gerando relatório HTML, apresentação editável e planilha de validação. Um gerador semanal cobre 30 réguas com insights por regra; o relatório mensal para a diretoria sai de snapshots.</dd>
+                <dd data-l="it">Pipeline Python che uniscono e-mail, SMS, push e WhatsApp ai dati di prodotto (utenti attivi, prenotazioni, utilizzo dei servizi) tramite una chiave pseudonimizzata, generando un report HTML, una presentazione modificabile e un file di validazione. Un generatore settimanale copre 30 journey con insight basati su regole; il report mensile per il management nasce da snapshot.</dd></div>
+              <div class="result"><dt><span data-l="en">Result</span><span data-l="pt">Resultado</span><span data-l="it">Risultato</span></dt>
+                <dd data-l="en">Automated weekly and monthly reporting, with consistent metric definitions across channels and less manual consolidation. The analysis identified opportunities to combine email with complementary channels.</dd>
+                <dd data-l="pt">Relatórios semanais e mensais automatizados, com definições consistentes de métricas entre canais e menos consolidação manual. A análise identificou oportunidades de combinar e-mail com canais complementares.</dd>
+                <dd data-l="it">Report settimanali e mensili automatizzati, con definizioni coerenti delle metriche tra i canali e meno consolidamento manuale. L'analisi ha identificato opportunità per combinare e-mail e canali complementari.</dd></div>
+            </dl>
+          </div>
+          <ul class="chips"><li>Python (pandas)</li><li>python-pptx</li><li>OneSignal</li><li>Zenvia</li><li>Blip</li><li>Looker</li><li>Metabase</li></ul>
+        </article>
+
+        <!-- 5 -->
+        <article class="case">
+          <div class="case-top"><span class="theme"><span data-l="en">Analytics &amp; reporting</span><span data-l="pt">Analytics e relatórios</span><span data-l="it">Analytics e reporting</span></span><span>05</span></div>
+          <div class="case-body">
+            <h3><span data-l="en">Quarterly NPS, from sample to retention segments</span><span data-l="pt">NPS trimestral, da amostra aos segmentos de retenção</span><span data-l="it">NPS trimestrale, dal campione ai segmenti di retention</span></h3>
+            <dl>
+              <div><dt><span data-l="en">Opportunity</span><span data-l="pt">Oportunidade</span><span data-l="it">Opportunità</span></dt>
+                <dd data-l="en">I identified an opportunity to connect NPS research with CRM actions: reproducible sampling, analysis by theme and actionable retention segments.</dd>
+                <dd data-l="pt">Identifiquei uma oportunidade de conectar a pesquisa de NPS às ações de CRM: amostragem reproduzível, análise por tema e segmentos acionáveis para retenção.</dd>
+                <dd data-l="it">Ho identificato un'opportunità per collegare la ricerca NPS alle azioni CRM: campionamento riproducibile, analisi per tema e segmenti utilizzabili per la retention.</dd></div>
+              <div><dt><span data-l="en">What I built</span><span data-l="pt">O que construí</span><span data-l="it">Cosa ho realizzato</span></dt>
+                <dd data-l="en">A sampling script using Cochran's formula (95% confidence, 5% margin) with a reproducible seed, a send-time analysis, an executive report with 19 themes, and a write-back to the CRM as promoter, passive, detractor and theme tags.</dd>
+                <dd data-l="pt">Script de amostragem com a fórmula de Cochran (95% de confiança, 5% de margem) e semente reproduzível, análise de horário de envio, relatório executivo com 19 temas e devolução ao CRM como tags de promotor, neutro, detrator e tema.</dd>
+                <dd data-l="it">Uno script di campionamento con la formula di Cochran (confidenza 95%, margine 5%) e seed riproducibile, un'analisi dell'orario di invio, un report executive con 19 temi e la scrittura nel CRM come tag promotore, passivo, detrattore e tema.</dd></div>
+              <div class="result"><dt><span data-l="en">Result</span><span data-l="pt">Resultado</span><span data-l="it">Risultato</span></dt>
+                <dd data-l="en">364 of 364 respondents tagged in 4 min 20 s with zero failures. At-risk segments (detractor plus theme) are ready for retention journeys. The Q2 wave reached 98% of its sample target.</dd>
+                <dd data-l="pt">364 de 364 respondentes tagueados em 4 min 20 s, sem falhas. Segmentos de risco (detrator mais tema) prontos para réguas de retenção. A onda do 2º trimestre atingiu 98% da meta amostral.</dd>
+                <dd data-l="it">364 rispondenti su 364 taggati in 4 min 20 s, senza errori. Segmenti a rischio (detrattore più tema) pronti per journey di retention. L'ondata del secondo trimestre ha raggiunto il 98% del campione previsto.</dd></div>
+            </dl>
+          </div>
+          <ul class="chips"><li>Python</li><li>Statistics</li><li>ActiveCampaign API</li><li>Tally</li></ul>
+        </article>
+
+        <!-- 6 -->
+        <article class="case">
+          <div class="case-top"><span class="theme"><span data-l="en">Data governance</span><span data-l="pt">Governança de dados</span><span data-l="it">Data governance</span></span><span>06</span></div>
+          <div class="case-body">
+            <h3><span data-l="en">A CRM the dashboards can trust</span><span data-l="pt">Um CRM em que os dashboards podem confiar</span><span data-l="it">Un CRM di cui i dashboard possono fidarsi</span></h3>
+            <dl>
+              <div><dt><span data-l="en">Opportunity</span><span data-l="pt">Oportunidade</span><span data-l="it">Opportunità</span></dt>
+                <dd data-l="en">I identified an opportunity to standardize CRM taxonomy and automate coverage monitoring. AI-assisted analysis and development helped replace repetitive checks with repeatable processes.</dd>
+                <dd data-l="pt">Identifiquei uma oportunidade de padronizar a taxonomia do CRM e automatizar o monitoramento de cobertura. Com apoio de IA na análise e no desenvolvimento, substituí verificações repetitivas por processos reproduzíveis.</dd>
+                <dd data-l="it">Ho identificato un'opportunità per standardizzare la tassonomia CRM e automatizzare il monitoraggio della copertura. Con il supporto dell'AI nell'analisi e nello sviluppo, ho sostituito verifiche ripetitive con processi riproducibili.</dd></div>
+              <div><dt><span data-l="en">What I built</span><span data-l="pt">O que construí</span><span data-l="it">Cosa ho realizzato</span></dt>
+                <dd data-l="en">A closed naming taxonomy of 23 categories, checked against 508 campaigns and 116 automations and applied via API from an approved mapping. A monthly audit of a mandatory regulatory notice that crosses the core system with the CRM, plus a daily cloud monitor that answers "who should have received it today, and did they?". Privacy defaults: one pseudonymous key, data files blocked from Git, secrets kept out of code.</dd>
+                <dd data-l="pt">Taxonomia fechada de nomenclatura com 23 categorias, validada contra 508 campanhas e 116 automações e aplicada via API a partir de um de-para aprovado. Auditoria mensal de uma comunicação regulatória obrigatória cruzando o sistema principal com o CRM, e monitor diário na nuvem que responde "quem deveria receber hoje, recebeu?". Privacidade por padrão: chave única pseudonimizada, arquivos de dados bloqueados no Git e segredos fora do código.</dd>
+                <dd data-l="it">Una tassonomia chiusa di 23 categorie, verificata su 508 campagne e 116 automazioni e applicata via API partendo da una mappatura approvata. Un audit mensile di una comunicazione regolamentare obbligatoria che incrocia il sistema gestionale con il CRM, più un monitor giornaliero in cloud che risponde a "chi doveva riceverla oggi, l'ha ricevuta?". Privacy by default: un'unica chiave pseudonimizzata, file di dati esclusi da Git, segreti fuori dal codice.</dd></div>
+              <div class="result"><dt><span data-l="en">Result</span><span data-l="pt">Resultado</span><span data-l="it">Risultato</span></dt>
+                <dd data-l="en">About 100 automations standardized across 23 categories, enabling consistent BI classification. Recurring coverage checks became automated monitoring with an audit trail.</dd>
+                <dd data-l="pt">Cerca de 100 automações padronizadas em 23 categorias, permitindo classificação consistente no BI. Verificações recorrentes de cobertura passaram a contar com monitoramento automatizado e trilha de auditoria.</dd>
+                <dd data-l="it">Circa 100 automazioni standardizzate in 23 categorie, per una classificazione BI coerente. Le verifiche ricorrenti della copertura sono diventate un monitoraggio automatizzato con audit trail.</dd></div>
+            </dl>
+          </div>
+          <ul class="chips"><li>ActiveCampaign API</li><li>SQL</li><li>Python</li><li>Apps Script</li></ul>
+        </article>
+
+        <!-- 7 -->
+        <article class="case">
+          <div class="case-top"><span class="theme"><span data-l="en">Applied AI</span><span data-l="pt">IA aplicada</span><span data-l="it">AI applicata</span></span><span>07</span></div>
+          <div class="case-body">
+            <h3><span data-l="en">MCP server and AI-agent CRM operations</span><span data-l="pt">Servidor MCP e operação de CRM com agentes de IA</span><span data-l="it">Server MCP e operazioni CRM con agenti AI</span></h3>
+            <dl>
+              <div><dt><span data-l="en">Opportunity</span><span data-l="pt">Oportunidade</span><span data-l="it">Opportunità</span></dt>
+                <dd data-l="en">I identified an opportunity to connect AI agents directly to CRM workflows through controlled tools, bringing repetitive API work and operational knowledge into one interface.</dd>
+                <dd data-l="pt">Identifiquei uma oportunidade de conectar agentes de IA aos processos de CRM por ferramentas controladas, reunindo tarefas repetitivas de API e conhecimento operacional em uma única interface.</dd>
+                <dd data-l="it">Ho identificato un'opportunità per collegare gli agenti AI ai processi CRM tramite strumenti controllati, riunendo attività API ripetitive e conoscenza operativa in un'unica interfaccia.</dd></div>
+              <div><dt><span data-l="en">What I built</span><span data-l="pt">O que construí</span><span data-l="it">Cosa ho realizzato</span></dt>
+                <dd data-l="en">An MCP server in Python (FastMCP) with 22 tools for ActiveCampaign. An operating model where Claude is the single interface: squads with explicit scope, keyword-triggered processes with a human checkpoint before any write, shared API clients and a knowledge base. I generalized it into CRM Agent OS, a personal framework (private repo, demo on request). I also added web grounding with source validation to an AI content generator for health topics.</dd>
+                <dd data-l="pt">Um servidor MCP em Python (FastMCP) com 22 ferramentas para o ActiveCampaign. Um modelo de operação em que o Claude é o interlocutor único: squads com escopo explícito, processos acionados por palavra-chave com checkpoint humano antes de qualquer escrita, clientes de API compartilhados e base de conhecimento. Generalizei isso no CRM Agent OS, um framework pessoal (repositório privado, demonstração sob pedido). Também implementei grounding com validação de fontes num gerador de conteúdo de saúde com IA.</dd>
+                <dd data-l="it">Un server MCP in Python (FastMCP) con 22 strumenti per ActiveCampaign. Un modello operativo in cui Claude è l'unica interfaccia: squad con perimetro definito, processi attivati da parole chiave con un checkpoint umano prima di ogni scrittura, client API condivisi e una knowledge base. L'ho generalizzato in CRM Agent OS, un framework personale (repository privato, demo su richiesta). Ho inoltre aggiunto grounding con validazione delle fonti a un generatore di contenuti sanitari basato su AI.</dd></div>
+              <div class="result"><dt><span data-l="en">Result</span><span data-l="pt">Resultado</span><span data-l="it">Risultato</span></dt>
+                <dd data-l="en">AI agents read and change CRM data through a controlled set of tools. Bulk changes always pass through preview and approval, and every action is logged.</dd>
+                <dd data-l="pt">Agentes de IA leem e alteram dados do CRM por um conjunto controlado de ferramentas. Alterações em massa sempre passam por prévia e aprovação, e toda ação fica registrada.</dd>
+                <dd data-l="it">Gli agenti AI leggono e modificano i dati del CRM attraverso un set controllato di strumenti. Le modifiche massive passano sempre da anteprima e approvazione, e ogni azione viene registrata.</dd></div>
+            </dl>
+          </div>
+          <ul class="chips"><li>Claude Code</li><li>MCP (FastMCP)</li><li>Python</li><li>Gemini API</li><li>Git</li></ul>
+        </article>
+
+        <!-- 8 -->
+        <article class="case">
+          <div class="case-top"><span class="theme"><span data-l="en">Multichannel</span><span data-l="pt">Multicanal</span><span data-l="it">Multicanale</span></span><span>08</span></div>
+          <div class="case-body">
+            <h3><span data-l="en">WhatsApp at scale and an email standard</span><span data-l="pt">WhatsApp em escala e padrão de e-mail</span><span data-l="it">WhatsApp su larga scala e uno standard e-mail</span></h3>
+            <dl>
+              <div><dt><span data-l="en">Opportunity</span><span data-l="pt">Oportunidade</span><span data-l="it">Opportunità</span></dt>
+                <dd data-l="en">I identified opportunities to scale app acquisition through WhatsApp and make email production repeatable with shared templates and API workflows.</dd>
+                <dd data-l="pt">Identifiquei oportunidades de escalar a aquisição de usuários pelo WhatsApp e tornar a produção de e-mails recorrente com templates e processos via API.</dd>
+                <dd data-l="it">Ho identificato opportunità per scalare l'acquisizione di utenti tramite WhatsApp e rendere ripetibile la produzione e-mail con template e processi API.</dd></div>
+              <div><dt><span data-l="en">What I built</span><span data-l="pt">O que construí</span><span data-l="it">Cosa ho realizzato</span></dt>
+                <dd data-l="en">Audience, segmentation and measurement for a WhatsApp acquisition journey: 4 CRM audiences, list hygiene the day before each wave, sampling, a platform migration and a conversion method that counts only post-send actions. Utility templates instead of Marketing ones. An HTML email standard (controlled dark mode, CTA above the fold, mobile type) and a repeatable monthly newsletter process via API.</dd>
+                <dd data-l="pt">Base, segmentação e mensuração de uma régua de WhatsApp para aquisição: 4 públicos no CRM, higienização na véspera de cada onda, amostragem, migração de plataforma e um método de conversão que conta só o que acontece depois do envio. Templates de Utilidade no lugar de Marketing. Padrão de e-mail HTML (dark mode controlado, CTA antes da dobra, tipografia mobile) e processo mensal da newsletter via API.</dd>
+                <dd data-l="it">Audience, segmentazione e misurazione di un journey WhatsApp di acquisizione: 4 audience nel CRM, pulizia delle liste il giorno prima di ogni ondata, campionamento, migrazione di piattaforma e un metodo di conversione che conta solo le azioni successive all'invio. Template Utility al posto dei Marketing. Uno standard e-mail HTML (dark mode controllata, CTA above the fold, tipografia mobile) e un processo mensile ripetibile per la newsletter via API.</dd></div>
+              <div class="result"><dt><span data-l="en">Result</span><span data-l="pt">Resultado</span><span data-l="it">Risultato</span></dt>
+                <dd data-l="en">One wave: 17.1k sends with a 61.3% read rate. Utility templates cost about 7x less per message. The monthly newsletter opens at 35% to 39%.</dd>
+                <dd data-l="pt">Uma onda: 17,1 mil envios com 61,3% de leitura. Templates de Utilidade custam cerca de 7x menos por mensagem. A newsletter mensal tem abertura de 35% a 39%.</dd>
+                <dd data-l="it">Un'ondata: 17.100 invii con il 61,3% di lettura. I template Utility costano circa 7 volte meno per messaggio. La newsletter mensile ha un tasso di apertura tra il 35% e il 39%.</dd></div>
+            </dl>
+          </div>
+          <ul class="chips"><li>WhatsApp (Blip, Nuvia)</li><li>ActiveCampaign</li><li>Metabase</li><li>HTML email</li></ul>
+        </article>
+
+      </div>
+    </section>
+
+    <section id="ai-ops" aria-labelledby="ai-h">
+      <div class="sec-head">
+        <span class="eyebrow"><span data-l="en">Applied AI</span><span data-l="pt">IA aplicada</span><span data-l="it">AI applicata</span></span>
+        <h2 id="ai-h"><span data-l="en">How the AI-agent operation works</span><span data-l="pt">Como funciona a operação com agentes de IA</span><span data-l="it">Come funziona l'operatività con agenti AI</span></h2>
+        <p data-l="en">Requests go to one agent. Each squad owns a scope, each process has a human checkpoint, and only approved actions reach the CRM and channels.</p>
+        <p data-l="pt">Os pedidos vão para um único agente. Cada squad tem um escopo, cada processo tem um checkpoint humano, e só ações aprovadas chegam ao CRM e aos canais.</p>
+        <p data-l="it">Le richieste passano da un unico agente. Ogni squad ha un perimetro, ogni processo ha un checkpoint umano, e solo le azioni approvate arrivano al CRM e ai canali.</p>
+      </div>
+      <div class="diagram">
+        <svg viewBox="0 0 820 300" role="img" aria-label="Squads feed processes with a human checkpoint, which act on CRM, channels, data and audit">
+          <defs>
+            <marker id="ah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" class="d-arrow"/></marker>
+          </defs>
+          <!-- headers -->
+          <text x="20" y="28" class="d-head"><tspan data-l="en">Squads</tspan><tspan data-l="pt">Squads</tspan><tspan data-l="it">Squad</tspan></text>
+          <text x="300" y="28" class="d-head"><tspan data-l="en">Process</tspan><tspan data-l="pt">Processo</tspan><tspan data-l="it">Processo</tspan></text>
+          <text x="600" y="28" class="d-head"><tspan data-l="en">Systems</tspan><tspan data-l="pt">Sistemas</tspan><tspan data-l="it">Sistemi</tspan></text>
+
+          <!-- squads -->
+          <rect x="20" y="48" width="200" height="40" rx="5" class="d-box"/>
+          <text x="34" y="73" class="d-txt">Lifecycle</text>
+          <rect x="20" y="104" width="200" height="40" rx="5" class="d-box"/>
+          <text x="34" y="129" class="d-txt"><tspan data-l="en">Billing and renewals</tspan><tspan data-l="pt">Cobrança e reajuste</tspan><tspan data-l="it">Incassi e rinnovi</tspan></text>
+          <rect x="20" y="160" width="200" height="40" rx="5" class="d-box"/>
+          <text x="34" y="185" class="d-txt"><tspan data-l="en">Analytics</tspan><tspan data-l="pt">Analytics</tspan><tspan data-l="it">Analisi</tspan></text>
+          <rect x="20" y="216" width="200" height="40" rx="5" class="d-box"/>
+          <text x="34" y="241" class="d-txt"><tspan data-l="en">Governance</tspan><tspan data-l="pt">Governança</tspan><tspan data-l="it">Governance</tspan></text>
+
+          <!-- squads to process bus -->
+          <path d="M220 68 H250 M220 124 H250 M220 180 H250 M220 236 H250 M250 68 V236" class="d-line"/>
+          <path d="M250 68 H296" class="d-line" marker-end="url(#ah)"/>
+
+          <!-- process -->
+          <rect x="300" y="48" width="230" height="40" rx="5" class="d-box"/>
+          <text x="314" y="73" class="d-txt"><tspan data-l="en">Keyword starts a playbook</tspan><tspan data-l="pt">Palavra-chave aciona o playbook</tspan><tspan data-l="it">Una parola chiave avvia il playbook</tspan></text>
+          <rect x="300" y="104" width="230" height="40" rx="5" class="d-box"/>
+          <text x="314" y="129" class="d-txt"><tspan data-l="en">Dry-run and preview</tspan><tspan data-l="pt">Simulação e prévia</tspan><tspan data-l="it">Dry-run e anteprima</tspan></text>
+          <rect x="300" y="160" width="230" height="40" rx="5" class="d-key"/>
+          <text x="314" y="185" class="d-key-txt"><tspan data-l="en">Human approval</tspan><tspan data-l="pt">Aprovação humana</tspan><tspan data-l="it">Approvazione umana</tspan></text>
+          <rect x="300" y="216" width="230" height="40" rx="5" class="d-box"/>
+          <text x="314" y="241" class="d-txt"><tspan data-l="en">Execute and log</tspan><tspan data-l="pt">Executa e registra</tspan><tspan data-l="it">Esecuzione e log</tspan></text>
+          <path d="M415 88 V101 M415 144 V157 M415 200 V213" class="d-line" marker-end="url(#ah)"/>
+
+          <!-- process to systems -->
+          <path d="M530 236 H560 M560 68 V236" class="d-line"/>
+          <path d="M560 68 H596 M560 124 H596 M560 180 H596 M560 236 H596" class="d-line" marker-end="url(#ah)"/>
+
+          <!-- systems -->
+          <rect x="600" y="48" width="200" height="40" rx="5" class="d-box"/>
+          <text x="614" y="73" class="d-txt"><tspan data-l="en">CRM via MCP (22 tools)</tspan><tspan data-l="pt">CRM via MCP (22 ferram.)</tspan><tspan data-l="it">CRM via MCP (22 strum.)</tspan></text>
+          <rect x="600" y="104" width="200" height="40" rx="5" class="d-box"/>
+          <text x="614" y="129" class="d-txt"><tspan data-l="en">Channels</tspan><tspan data-l="pt">Canais</tspan><tspan data-l="it">Canali</tspan></text>
+          <rect x="600" y="160" width="200" height="40" rx="5" class="d-box"/>
+          <text x="614" y="185" class="d-txt"><tspan data-l="en">Data and BI</tspan><tspan data-l="pt">Dados e BI</tspan><tspan data-l="it">Dati e BI</tspan></text>
+          <rect x="600" y="216" width="200" height="40" rx="5" class="d-box"/>
+          <text x="614" y="241" class="d-txt"><tspan data-l="en">Audit summary to team</tspan><tspan data-l="pt">Resumo de auditoria</tspan><tspan data-l="it">Riepilogo di audit</tspan></text>
+
+          <text x="20" y="288" class="d-cap"><tspan data-l="en">Nothing is written to the CRM before the approval step.</tspan><tspan data-l="pt">Nada é gravado no CRM antes da etapa de aprovação.</tspan><tspan data-l="it">Nulla viene scritto nel CRM prima del passaggio di approvazione.</tspan></text>
+        </svg>
+      </div>
+      <p class="cap" data-l="en">CRM Agent OS is a private repository. A walkthrough is available on request.</p>
+      <p class="cap" data-l="pt">O CRM Agent OS é um repositório privado. Demonstração disponível sob pedido.</p>
+      <p class="cap" data-l="it">CRM Agent OS è un repository privato. Demo disponibile su richiesta.</p>
+    </section>
+
+    <section id="stack" aria-labelledby="stack-h">
+      <div class="sec-head">
+        <span class="eyebrow">Stack</span>
+        <h2 id="stack-h"><span data-l="en">Tools I work with</span><span data-l="pt">Ferramentas com que trabalho</span><span data-l="it">Strumenti che uso</span></h2>
+      </div>
+      <div class="stack">
+        <div><h3><span data-l="en">CRM &amp; automation</span><span data-l="pt">CRM e automação</span><span data-l="it">CRM e automazione</span></h3>
+          <p>Salesforce Marketing Cloud (Journey Builder, Automation Studio, Data Extensions, AMPscript) · ActiveCampaign (API, Custom Objects) · HubSpot · RD Station</p></div>
+        <div><h3><span data-l="en">Channels</span><span data-l="pt">Canais</span><span data-l="it">Canali</span></h3>
+          <p><span data-l="en">Email · SMS (Zenvia) · WhatsApp Business (Blip, Nuvia) · Push and in-app (OneSignal, Firebase) · Landing pages</span><span data-l="pt">E-mail · SMS (Zenvia) · WhatsApp Business (Blip, Nuvia) · Push e in-app (OneSignal, Firebase) · Landing pages</span><span data-l="it">E-mail · SMS (Zenvia) · WhatsApp Business (Blip, Nuvia) · Push e in-app (OneSignal, Firebase) · Landing page</span></p></div>
+        <div><h3><span data-l="en">Data &amp; BI</span><span data-l="pt">Dados e BI</span><span data-l="it">Dati e BI</span></h3>
+          <p>SQL · Python (pandas) · Looker · Metabase · Power BI · Google Analytics 4 · Search Console</p></div>
+        <div><h3><span data-l="en">Engineering</span><span data-l="pt">Engenharia</span><span data-l="it">Sviluppo</span></h3>
+          <p>Google Apps Script · REST APIs · GCP (Cloud Run, Scheduler) · Docker · Git · HTML/CSS</p></div>
+        <div><h3><span data-l="en">Applied AI</span><span data-l="pt">IA aplicada</span><span data-l="it">AI applicata</span></h3>
+          <p>Claude Code · MCP (FastMCP) · Gemini API · Google AI Studio</p></div>
+        <div><h3><span data-l="en">Languages</span><span data-l="pt">Idiomas</span><span data-l="it">Lingue</span></h3>
+          <p><span data-l="en">Portuguese (native) · Italian (C1) · English (B1)</span><span data-l="pt">Português (nativo) · Italiano (C1) · Inglês (B1)</span><span data-l="it">Portoghese (madrelingua) · Italiano (C1) · Inglese (B1)</span></p></div>
+      </div>
+    </section>
+
+    <section id="how" aria-labelledby="how-h">
+      <div class="sec-head">
+        <span class="eyebrow"><span data-l="en">Principles</span><span data-l="pt">Princípios</span><span data-l="it">Principi</span></span>
+        <h2 id="how-h"><span data-l="en">How I work</span><span data-l="pt">Como eu trabalho</span><span data-l="it">Come lavoro</span></h2>
+      </div>
+      <div class="how">
+        <article>
+          <h3><span data-l="en">Hands-on</span><span data-l="pt">Mão na massa</span><span data-l="it">Operativo</span></h3>
+          <p data-l="en">I design the journey and I build it: segments, triggers, copy hand-off, scripts and API calls. Most of what is on this page shipped without waiting for an engineering sprint.</p>
+          <p data-l="pt">Desenho a jornada e também construo: segmentos, gatilhos, alinhamento de copy, scripts e chamadas de API. Quase tudo nesta página foi entregue sem esperar uma sprint de engenharia.</p>
+          <p data-l="it">Progetto il journey e lo costruisco: segmenti, trigger, coordinamento dei testi, script e chiamate API. Quasi tutto ciò che trovi in questa pagina è stato rilasciato senza attendere uno sprint di sviluppo.</p>
+        </article>
+        <article>
+          <h3><span data-l="en">Audit trail by default</span><span data-l="pt">Trilha de auditoria por padrão</span><span data-l="it">Audit trail di default</span></h3>
+          <p data-l="en">Every automated change leaves three records: the action itself, a note on the contact and a summary for the team. Bulk work starts with a dry-run and safety limits.</p>
+          <p data-l="pt">Toda alteração automática deixa três registros: a ação, uma nota no contato e um resumo para o time. Trabalho em massa começa com simulação e travas de segurança.</p>
+          <p data-l="it">Ogni modifica automatica lascia tre tracce: l'azione stessa, una nota sul contatto e un riepilogo per il team. Le operazioni massive partono sempre da un dry-run con soglie di sicurezza.</p>
+        </article>
+        <article>
+          <h3><span data-l="en">Human-in-the-loop AI</span><span data-l="pt">IA com humano no circuito</span><span data-l="it">AI con supervisione umana</span></h3>
+          <p data-l="en">AI agents speed up the work, but they propose and a person approves. Before any mass change I review a before-and-after mapping.</p>
+          <p data-l="pt">Agentes de IA aceleram o trabalho, mas eles propõem e uma pessoa aprova. Antes de qualquer alteração em massa, reviso um de-para do antes e depois.</p>
+          <p data-l="it">Gli agenti AI velocizzano il lavoro, ma propongono e una persona approva. Prima di ogni modifica massiva verifico una mappatura prima e dopo.</p>
+        </article>
+        <article>
+          <h3><span data-l="en">Metrics that mean one thing</span><span data-l="pt">Métricas com um só significado</span><span data-l="it">Metriche con un solo significato</span></h3>
+          <p data-l="en">I agree on metric definitions across channels before reporting, use pseudonymous keys instead of personal data, and report only aggregated figures.</p>
+          <p data-l="pt">Alinho a definição das métricas entre canais antes de reportar, uso chaves pseudonimizadas no lugar de dados pessoais e reporto só números agregados.</p>
+          <p data-l="it">Allineo le definizioni delle metriche tra i canali prima di fare reporting, uso chiavi pseudonimizzate al posto dei dati personali e presento solo dati aggregati.</p>
+        </article>
+      </div>
+    </section>
+  </div>
+</main>
+
+<footer>
+  <div class="wrap">
+    <span class="eyebrow"><span data-l="en">Contact</span><span data-l="pt">Contato</span><span data-l="it">Contatti</span></span>
+    <h2><span data-l="en">Let's talk about CRM, lifecycle or marketing ops roles.</span><span data-l="pt">Vamos conversar sobre vagas de CRM, Lifecycle ou Marketing Ops.</span><span data-l="it">Parliamo di ruoli in CRM, lifecycle o marketing operations.</span></h2>
+    <div class="contact">
+      <span class="addr">jean.biscazzi@gmail.com</span>
+      <a class="btn btn-line" href="https://www.linkedin.com/in/jean-biscazzi" target="_blank" rel="noopener">linkedin.com/in/jean-biscazzi</a>
+    </div>
+    <p class="fine" data-l="en">Case studies describe work at Sami, a Brazilian healthtech. All figures are aggregated; no customer data, internal screenshots or confidential identifiers are shown.</p>
+    <p class="fine" data-l="pt">Os casos descrevem trabalhos na Sami, healthtech brasileira. Todos os números são agregados; nenhum dado de cliente, print interno ou identificador confidencial é exibido.</p>
+    <p class="fine" data-l="it">I casi descrivono progetti realizzati in Sami, healthtech brasiliana. Tutti i dati sono aggregati; non vengono mostrati dati dei clienti, schermate interne né identificativi riservati.</p>
+  </div>
+</footer>
+
+<script>
+(function(){
+  var root=document.documentElement;
+  var btns=document.querySelectorAll('.langs button');
+  function apply(l){
+    root.setAttribute('data-lang',l);
+    root.lang=l==='pt'?'pt-BR':l;
+    btns.forEach(function(b){b.setAttribute('aria-pressed',b.getAttribute('data-set')===l?'true':'false');});
+  }
+  apply(root.getAttribute('data-lang')||'en');
+  btns.forEach(function(b){
+    b.addEventListener('click',function(){
+      var l=b.getAttribute('data-set');
+      apply(l);
+      try{localStorage.setItem('jb-lang',l);}catch(e){}
+    });
+  });
+  var copy=document.getElementById('copy-email');
+  var labels={en:'Copied',pt:'Copiado',it:'Copiato'};
+  copy.addEventListener('click',function(){
+    var text='jean.biscazzi@gmail.com';
+    var done=function(){
+      var l=root.getAttribute('data-lang')||'en';
+      var span=copy.querySelector('[data-l="'+l+'"]');
+      if(!span)return;
+      var old=span.textContent;span.textContent=labels[l];
+      setTimeout(function(){span.textContent=old;},1600);
+    };
+    var select=function(){
+      var r=document.createRange();r.selectNodeContents(document.getElementById('email'));
+      var s=window.getSelection();s.removeAllRanges();s.addRange(r);
+    };
+    try{
+      navigator.clipboard.writeText(text).then(done,select);
+    }catch(e){select();}
+  });
+})();
+</script>
+</body>
+</html>
